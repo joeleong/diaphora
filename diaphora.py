@@ -306,7 +306,8 @@ class CBinDiff:
                 callgraph_primes text,
                 callgraph_all_primes text,
                 processor text,
-                md5sum text
+                md5sum text,
+                imagebase integer
               ) """
     cur.execute(sql)
 

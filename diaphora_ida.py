@@ -1327,11 +1327,11 @@ or selecting Edit -> Plugins -> Diaphora - Show results""")
 
   def save_callgraph(self, primes, all_primes, md5sum):
     cur = self.db_cursor()
-    sql = "insert into main.program (callgraph_primes, callgraph_all_primes, processor, md5sum) values (?, ?, ?, ?)"
+    sql = "insert into main.program (callgraph_primes, callgraph_all_primes, processor, md5sum, imagebase) values (?, ?, ?, ?, ?)"
     proc = idaapi.get_idp_name()
     if BADADDR == 0xFFFFFFFFFFFFFFFF:
       proc += "64"
-    cur.execute(sql, (primes, all_primes, proc, md5sum))
+    cur.execute(sql, (primes, all_primes, proc, md5sum, self.get_base_address()))
     cur.close()
 
   def GetLocalType(self, ordinal, flags):
