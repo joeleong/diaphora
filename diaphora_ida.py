@@ -1187,7 +1187,7 @@ or selecting Edit -> Plugins -> Diaphora - Show results""")
 
         ins_cmt1 = GetCommentEx(x, 0)
         ins_cmt2 = GetCommentEx(x, 1)
-        instructions_data.append([x - image_base, mnem, disasm, ins_cmt1, ins_cmt2, tmp_name, tmp_type])
+        instructions_data.append([x - image_base, mnem, disasm, ins_cmt1, ins_cmt2, tmp_name, tmp_type, buffer(GetManyBytes(x, ItemSize(x)))])
 
         switch = get_switch_info_ex(x)
         if switch:

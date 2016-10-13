@@ -329,7 +329,8 @@ class CBinDiff:
                 comment1 text,
                 comment2 text,
                 name text,
-                type text) """
+                type text,
+                bytes blob) """
     cur.execute(sql)
 
     sql = "create index if not exists idx_instructions_address on instructions (address)"
@@ -544,16 +545,16 @@ class CBinDiff:
     if not self.function_summaries_only:
       bb_data, bb_relations = props[len(props)-2:]
       instructions_ids = {}
-      sql = """insert into main.instructions (address, mnemonic, disasm, comment1, comment2, name, type)
-                                 values (?, ?, ?, ?, ?, ?, ?)"""
+      sql = """insert into main.instructions (address, mnemonic, disasm, comment1, comment2, name, type, bytes)
+                                 values (?, ?, ?, ?, ?, ?, ?, ?)"""
       self_get_instruction_id = self.get_instruction_id
       cur_execute = cur.execute
       for key in bb_data:
         for insn in bb_data[key]:
-          addr, mnem, disasm, cmt1, cmt2, name, mtype = insn
+          addr, mnem, disasm, cmt1, cmt2, name, mtype, insn_bytes = insn
           db_id = self_get_instruction_id(str(addr))
           if db_id is None:
-            cur_execute(sql, (str(addr), mnem, disasm, cmt1, cmt2, name, mtype))
+            cur_execute(sql, (str(addr), mnem, disasm, cmt1, cmt2, name, mtype, insn_bytes))
             db_id = cur.lastrowid
           instructions_ids[addr] = db_id
 
